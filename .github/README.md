@@ -14,9 +14,17 @@ We strongly recommend you (please do! 🙏) to read all documentation before sta
 
 > To access the previous version of this project please access [version 0.4](https://github.com/evertramos/nginx-proxy-automation/tree/v0.4).
 
+### Upgrading from previous version
+
+If you are upgrading from the previous version please follow the guide below carefully:
+
+https://github.com/evertramos/nginx-proxy-automation/blob/master/docs/upgrade-guide.md
+
 ## Video Tutorial
 
 I made a 5 minutes tutorial video to walk you through this project:
+
+Click [here](https://www.youtube.com/watch?v=E9BtHVr_v9I) to access the video or click the image below:
 
 [![NGINX-Proxy-Automation](https://img.youtube.com/vi/E9BtHVr_v9I/0.jpg)](https://www.youtube.com/watch?v=E9BtHVr_v9I)
 
@@ -62,10 +70,11 @@ $ git clone --recurse-submodules https://github.com/evertramos/nginx-proxy-autom
 $ cd proxy/bin
 $ ./fresh-start.sh
 ```
-
 This script will walk you through all config process.  
 
 When it finishes you are good to go! :checkered_flag:
+
+> If you are in a 'hurry' you could use just `$ ./fresh-start.sh --yes -e your_email@do` (please set your email) and your proxy will start it as soon as possible.
 
 > You can check all available options to run the script `$ ./fresh-start.sh --help`
 
@@ -131,9 +140,10 @@ docker network connect myownnetwork nginx-gen
 docker network connect myownnetwork nginx-letsencrypt
 ```
 
-3. Using different ports to be proxied
+3. Ports
 
-If your service container runs on port 8545 you probably will need to add the `VIRTUAL_PORT` environment variable to your container, in the `docker-compose.yml`, as of:
+If your service container runs on port 8545 you probably will need to add the `VIRTUAL_PORT` environment variable to your container, 
+in the `docker-compose.yml`, so it can be proxied, as of:
 
 ```bash
 parity
@@ -161,12 +171,12 @@ docker exec -it ${NGINX_WEB} nginx -s reload
 Where *${NGINX_WEB}* is your proxy container name, which in the original `.env` file is set as *nginx-web*.
 
 
-## Testing your proxy with scripts preconfigured 
+## Testing nginx-proxy
 
 1. Run the script `test.sh` informing your domain already configured in your DNS to point out to your server as follow:
 
 ```bash
-./test_start_ssl.sh your.domain.com
+./test.sh your.domain.com
 ```
 
 or simply run:
@@ -175,12 +185,14 @@ or simply run:
 docker run -dit -e VIRTUAL_HOST=your.domain.com --network=webproxy --name test-web httpd:alpine
 ```
 
+> If you want to test the Let's Encrypt certificate as well use `ssl_test.sh your.domain.com`
+
 Access your browser with your domain!
 
-To stop and remove your test container run our `stop_test.sh` script:
+To stop and remove your test container run our `stop.sh` script:
 
 ```bash
-./test_stop.sh
+./stop.sh
 ```
 
 Or simply run:
@@ -189,14 +201,15 @@ Or simply run:
 docker stop test-web && docker rm test-web
 ```
 
-## Running this Proxy on a Synology NAS
+## **PRODUCTION** ⚠️ [IMPORTANT]
 
-Please checkout this [howto](https://github.com/evertramos/nginx-proxy-automation/blob/master/docs/HOWTO-Synlogy.md).
+If you are using this project in production enviroment, check all license involved and consider the following recomendation:
 
-## Production Environment using Web Proxy
+- [rootless docker](https://docs.docker.com/engine/security/rootless/)
+- [docker compose files](https://docs.docker.com/compose/production/)
 
+## Other projects using nginx-proxy
 Following are links to docker containers using this web proxy:
-
 1. [docker-wordpress-letsencrypt](https://github.com/evertramos/docker-wordpress-letsencrypt)
 2. [docker-portainer-letsencrypt](https://github.com/evertramos/docker-portainer-letsencrypt)
 3. [docker-nextcloud-letsencrypt](https://github.com/evertramos/docker-nextcloud-letsencrypt)
@@ -204,22 +217,19 @@ Following are links to docker containers using this web proxy:
 5. [gitlab-docker-letsencrypt](https://github.com/steevepay/gitlab-docker-letsencrypt)
 6. [docker-webtrees-letsencrypt](https://github.com/mstroppel/docker-webtrees-letsencrypt)
 
+## Running this Proxy on a Synology NAS
+Please checkout this [howto](https://github.com/evertramos/nginx-proxy-automation/blob/master/docs/HOWTO-Synlogy.md).
+
 ## Credits
+Without the projects below this proxy would be impossible:
+- [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) by [@jwilder](https://github.com/jwilder)
+- [docker-gen](https://github.com/jwilder/docker-gen) by [@jwilder](https://github.com/jwilder)
+- [docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) by [@JrCs](https://github.com/JrCs)
 
-Without the repositories below this webproxy wouldn´t be possible.
-
-Credits goes to:
-- nginx-proxy [@jwilder](https://github.com/jwilder/nginx-proxy)
-- docker-gen [@jwilder](https://github.com/jwilder/docker-gen)
-- docker-letsencrypt-nginx-proxy-companion [@JrCs](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion)
-
-### Special thanks to:
-
-- [@j7an](https://github.com/j7an) - Many contributions and the ipv6 branch!
-- [@buchdag](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion/pull/226#event-1145800062)
-- [@fracz](https://github.com/fracz) - Many contributions!
-
-### Just in case you are willing to support this project, you will find us at:
-
+## Supporting | Sponsoring ♥️
+In case you are willing to support this project, check:
 - [Patreon (evertramos)](https://www.patreon.com/evertramos)
 - [Open Collective (nginx-proxy-automation)](https://opencollective.com/nginx-proxy-automation)
+
+## List of all contributers, supporters, sponsors and backers
+Please access the page [Supporters, Sponsors and Backers](/.github/sponsor.md).
