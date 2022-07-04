@@ -64,6 +64,7 @@ Usage:
                 [--use-nginx-conf-files] [--update-nginx-template]
                 [--yes]
                 [--debug]
+                [--docker-rootless]
 
     Required
     -e | --default-email          Default email address require to issue ssl
@@ -83,6 +84,9 @@ Usage:
 
     Network
     -netopt | --network-option          Network options please check the docs
+    --ipv4-subnet                       You may inform IPv4 subnet to create
+                                        a docker network
+                                        (default: 172.17.0.0/16)
 
     Docker image
     -piv    | --proxy-image-version       Proxy image version
@@ -113,6 +117,10 @@ Usage:
     -sp     | --ssl-policy              Proxy SSL suport
                                         (default: Mozilla-Intermediate)
 
+    Default Host
+    -df     | --default-host            The default host where nginx-proxy will redirect all requests to
+                                        the container that matches the VIRTUAL_HOST
+
     IPv6 support
     --activate-ipv6                     Use to activate IPv6 support
     -ipv6   | --ipv6-address            IPv6 address for external connectivity
@@ -124,6 +132,10 @@ Usage:
     --yes                               Set "yes" to all, use it with caution
     --debug                             Show script debug options
     --silent                            Hide all script message
+    -dr | --docker-rootless             Add Docker rootless support by adding the
+                                        the current user's $XDG_RUNTIME_DIR and
+                                        concat with the '/docker.sock' in the
+                                        DOCKER_HOST_ROOTLESS_PATH .env file.
     -h | --help                         Display this help
 
 ${reset}

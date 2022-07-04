@@ -26,6 +26,11 @@ source $SCRIPT_PATH"/../basescript/bootstrap.sh"
 # Source localscripts
 source $SCRIPT_PATH"/localscript/bootstrap.sh"
 
+# Log
+printf "${energy} Start execution '${SCRIPT_PATH}/${SCRIPT_NAME} "
+log "Start execution"
+log "$@"
+
 #-----------------------------------------------------------------------
 # Process arguments
 #-----------------------------------------------------------------------
@@ -34,7 +39,7 @@ while [[ $# -gt 0 ]]; do
   -d)
     ARG_DATA_LOCATION="${2}"
     if [[ $ARG_DATA_LOCATION == "" ]]; then
-      echoerr "Invalid option for -d"
+      echoerror "Invalid option for -d"
       break
     fi
     shift 2
@@ -42,7 +47,7 @@ while [[ $# -gt 0 ]]; do
   --data-files-location=*)
     ARG_DATA_LOCATION="${1#*=}"
     if [[ $ARG_DATA_LOCATION == "" ]]; then
-      echoerr "Invalid option for --data-files-location=''"
+      echoerror "Invalid option for --data-files-location=''"
       break
     fi
     shift 1
@@ -50,7 +55,7 @@ while [[ $# -gt 0 ]]; do
   -e)
     ARG_DEFAULT_EMAIL="${2}"
     if [[ $ARG_DEFAULT_EMAIL == "" ]]; then
-      echoerr "Invalid option for -e"
+      echoerror "Invalid option for -e"
       break
     fi
     shift 2
@@ -58,7 +63,7 @@ while [[ $# -gt 0 ]]; do
   --default-email=*)
     ARG_DEFAULT_EMAIL="${1#*=}"
     if [[ $ARG_DEFAULT_EMAIL == "" ]]; then
-      echoerr "Invalid option for --default-email=''"
+      echoerror "Invalid option for --default-email=''"
       break
     fi
     shift 1
@@ -66,7 +71,7 @@ while [[ $# -gt 0 ]]; do
   -pn)
     ARG_NGINX_PROXY_SERVICE_NAME="${2}"
     if [[ $ARG_NGINX_PROXY_SERVICE_NAME == "" ]]; then
-      echoerr "Invalid option for -pn"
+      echoerror "Invalid option for -pn"
       break
     fi
     shift 2
@@ -74,7 +79,7 @@ while [[ $# -gt 0 ]]; do
   --proxy-name=*)
     ARG_NGINX_PROXY_SERVICE_NAME="${1#*=}"
     if [[ $ARG_NGINX_PROXY_SERVICE_NAME == "" ]]; then
-      echoerr "Invalid option for --proxy-name=''"
+      echoerror "Invalid option for --proxy-name=''"
       break
     fi
     shift 1
@@ -82,7 +87,7 @@ while [[ $# -gt 0 ]]; do
   -ln)
     ARG_LETSENCRYPT_SERVICE_NAME="${2}"
     if [[ $ARG_LETSENCRYPT_SERVICE_NAME == "" ]]; then
-      echoerr "Invalid option for -ln"
+      echoerror "Invalid option for -ln"
       break
     fi
     shift 2
@@ -90,7 +95,7 @@ while [[ $# -gt 0 ]]; do
   --letsencrypt-name=*)
     ARG_LETSENCRYPT_SERVICE_NAME="${1#*=}"
     if [[ $ARG_LETSENCRYPT_SERVICE_NAME == "" ]]; then
-      echoerr "Invalid option for --letsencrypt-name=''"
+      echoerror "Invalid option for --letsencrypt-name=''"
       break
     fi
     shift 1
@@ -98,7 +103,7 @@ while [[ $# -gt 0 ]]; do
   -gn)
     ARG_DOCKER_GEN_SERVICE_NAME="${2}"
     if [[ $ARG_DOCKER_GEN_SERVICE_NAME == "" ]]; then
-      echoerr "Invalid option for -gn"
+      echoerror "Invalid option for -gn"
       break
     fi
     shift 2
@@ -106,7 +111,7 @@ while [[ $# -gt 0 ]]; do
   --docker-gen-name=*)
     ARG_DOCKER_GEN_SERVICE_NAME="${1#*=}"
     if [[ $ARG_DOCKER_GEN_SERVICE_NAME == "" ]]; then
-      echoerr "Invalid option for --docker-gen-name=''"
+      echoerror "Invalid option for --docker-gen-name=''"
       break
     fi
     shift 1
@@ -114,7 +119,7 @@ while [[ $# -gt 0 ]]; do
   -piv)
     ARG_NGINX_PROXY_IMAGE_VERSION="${2}"
     if [[ $ARG_NGINX_PROXY_IMAGE_VERSION == "" ]]; then
-      echoerr "Invalid option for -pversion"
+      echoerror "Invalid option for -pversion"
       break
     fi
     shift 2
@@ -122,7 +127,7 @@ while [[ $# -gt 0 ]]; do
   --proxy-image-version=*)
     ARG_NGINX_PROXY_IMAGE_VERSION="${1#*=}"
     if [[ $ARG_NGINX_PROXY_IMAGE_VERSION == "" ]]; then
-      echoerr "Invalid option for --proxy-image-version=''"
+      echoerror "Invalid option for --proxy-image-version=''"
       break
     fi
     shift 1
@@ -130,7 +135,7 @@ while [[ $# -gt 0 ]]; do
   -liv)
     ARG_LETSENCRYPT_IMAGE_VERSION="${2}"
     if [[ $ARG_LETSENCRYPT_IMAGE_VERSION == "" ]]; then
-      echoerr "Invalid option for -liv"
+      echoerror "Invalid option for -liv"
       break
     fi
     shift 2
@@ -138,7 +143,7 @@ while [[ $# -gt 0 ]]; do
   --letsencrypt-image-version=*)
     ARG_LETSENCRYPT_IMAGE_VERSION="${1#*=}"
     if [[ $ARG_LETSENCRYPT_IMAGE_VERSION == "" ]]; then
-      echoerr "Invalid option for --letsencrypt-image-version=''"
+      echoerror "Invalid option for --letsencrypt-image-version=''"
       break
     fi
     shift 1
@@ -146,7 +151,7 @@ while [[ $# -gt 0 ]]; do
   -giv)
     ARG_DOCKER_GEN_IMAGE_VERSION="${2}"
     if [[ $ARG_DOCKER_GEN_IMAGE_VERSION == "" ]]; then
-      echoerr "Invalid option for -giv"
+      echoerror "Invalid option for -giv"
       break
     fi
     shift 2
@@ -154,7 +159,7 @@ while [[ $# -gt 0 ]]; do
   --docker-gen-image-version=*)
     ARG_DOCKER_GEN_IMAGE_VERSION="${1#*=}"
     if [[ $ARG_DOCKER_GEN_IMAGE_VERSION == "" ]]; then
-      echoerr "Invalid option for --docker-gen-image-version=''"
+      echoerror "Invalid option for --docker-gen-image-version=''"
       break
     fi
     shift 1
@@ -164,7 +169,7 @@ while [[ $# -gt 0 ]]; do
   -ip)
     ARG_IP_ADDRESS="${2}"
     if [[ $ARG_IP_ADDRESS == "" ]]; then
-      echoerr "Invalid option for -ip"
+      echoerror "Invalid option for -ip"
       break
     fi
     shift 2
@@ -172,7 +177,7 @@ while [[ $# -gt 0 ]]; do
   --ip-address=*)
     ARG_IP_ADDRESS="${1#*=}"
     if [[ $ARG_IP_ADDRESS == "" ]]; then
-      echoerr "Invalid option for --ip-address"
+      echoerror "Invalid option for --ip-address"
       break
     fi
     shift 1
@@ -180,7 +185,7 @@ while [[ $# -gt 0 ]]; do
   -ipv6)
     ARG_IPv6_ADDRESS="${2}"
     if [[ $ARG_IPv6_ADDRESS == "" ]]; then
-      echoerr "Invalid option for -ipv6"
+      echoerror "Invalid option for -ipv6"
       break
     fi
     shift 2
@@ -188,7 +193,7 @@ while [[ $# -gt 0 ]]; do
   --ipv6-address=*)
     ARG_IPv6_ADDRESS="${1#*=}"
     if [[ $ARG_IPv6_ADDRESS == "" ]]; then
-      echoerr "Invalid option for --ipv6-address"
+      echoerror "Invalid option for --ipv6-address"
       break
     fi
     shift 1
@@ -196,7 +201,7 @@ while [[ $# -gt 0 ]]; do
   -net)
     ARG_NETWORK_NAME="${2}"
     if [[ $ARG_NETWORK_NAME == "" ]]; then
-      echoerr "Invalid option for -net"
+      echoerror "Invalid option for -net"
       break
     fi
     shift 2
@@ -204,7 +209,7 @@ while [[ $# -gt 0 ]]; do
   --network-name=*)
     ARG_NETWORK_NAME="${1#*=}"
     if [[ $ARG_NETWORK_NAME == "" ]]; then
-      echoerr "Invalid option for --network-name"
+      echoerror "Invalid option for --network-name"
       break
     fi
     shift 1
@@ -212,7 +217,7 @@ while [[ $# -gt 0 ]]; do
   -netopt)
     NETWORK_OPTION="${2}"
     if [[ $NETWORK_OPTION == "" ]]; then
-      echoerr "Invalid option for -netopt"
+      echoerror "Invalid option for -netopt"
       break
     fi
     shift 2
@@ -220,7 +225,7 @@ while [[ $# -gt 0 ]]; do
   --network-option=*)
     NETWORK_OPTION="${1#*=}"
     if [[ $NETWORK_OPTION == "" ]]; then
-      echoerr "Invalid option for --network-option"
+      echoerror "Invalid option for --network-option"
       break
     fi
     shift 1
@@ -230,7 +235,7 @@ while [[ $# -gt 0 ]]; do
   -lpd)
     ARG_NGINX_PROXY_LOG_DRIVER="${2}"
     if [[ $ARG_NGINX_PROXY_LOG_DRIVER == "" ]]; then
-      echoerr "Invalid option for -lpd"
+      echoerror "Invalid option for -lpd"
       break
     fi
     shift 2
@@ -238,7 +243,7 @@ while [[ $# -gt 0 ]]; do
   --log-nginx-proxy-driver=*)
     ARG_NGINX_PROXY_LOG_DRIVER="${1#*=}"
     if [[ $ARG_NGINX_PROXY_LOG_DRIVER == "" ]]; then
-      echoerr "Invalid option for --log-nginx-proxy-driver"
+      echoerror "Invalid option for --log-nginx-proxy-driver"
       break
     fi
     shift 1
@@ -246,7 +251,7 @@ while [[ $# -gt 0 ]]; do
   -lpms)
     ARG_NGINX_PROXY_LOG_MAX_SIZE="${2}"
     if [[ $ARG_NGINX_PROXY_LOG_MAX_SIZE == "" ]]; then
-      echoerr "Invalid option for -lpms"
+      echoerror "Invalid option for -lpms"
       break
     fi
     shift 2
@@ -254,7 +259,7 @@ while [[ $# -gt 0 ]]; do
   --log-nginx-proxy-max_size=*)
     ARG_NGINX_PROXY_LOG_MAX_SIZE="${1#*=}"
     if [[ $ARG_NGINX_PROXY_LOG_MAX_SIZE == "" ]]; then
-      echoerr "Invalid option for --log-nginx-proxy-max_size"
+      echoerror "Invalid option for --log-nginx-proxy-max_size"
       break
     fi
     shift 1
@@ -262,7 +267,7 @@ while [[ $# -gt 0 ]]; do
   -lpmf)
     ARG_NGINX_PROXY_LOG_MAX_FILE="${2}"
     if [[ $ARG_NGINX_PROXY_LOG_MAX_FILE == "" ]]; then
-      echoerr "Invalid option for -lpmf"
+      echoerror "Invalid option for -lpmf"
       break
     fi
     shift 2
@@ -270,7 +275,7 @@ while [[ $# -gt 0 ]]; do
   --log-nginx-proxy-max_file=*)
     ARG_NGINX_PROXY_LOG_MAX_FILE="${1#*=}"
     if [[ $ARG_NGINX_PROXY_LOG_MAX_FILE == "" ]]; then
-      echoerr "Invalid option for --log-nginx-proxy-max_file"
+      echoerror "Invalid option for --log-nginx-proxy-max_file"
       break
     fi
     shift 1
@@ -278,7 +283,7 @@ while [[ $# -gt 0 ]]; do
   -lgd)
     ARG_DOCKER_GEN_LOG_DRIVER="${2}"
     if [[ $ARG_DOCKER_GEN_LOG_DRIVER == "" ]]; then
-      echoerr "Invalid option for -lgd"
+      echoerror "Invalid option for -lgd"
       break
     fi
     shift 2
@@ -286,7 +291,7 @@ while [[ $# -gt 0 ]]; do
   --log-docker-gen-driver=*)
     ARG_DOCKER_GEN_LOG_DRIVER="${1#*=}"
     if [[ $ARG_DOCKER_GEN_LOG_DRIVER == "" ]]; then
-      echoerr "Invalid option for --log-docker-gen-driver"
+      echoerror "Invalid option for --log-docker-gen-driver"
       break
     fi
     shift 1
@@ -294,7 +299,7 @@ while [[ $# -gt 0 ]]; do
   -lgms)
     ARG_DOCKER_GEN_LOG_MAX_SIZE="${2}"
     if [[ $ARG_DOCKER_GEN_LOG_MAX_SIZE == "" ]]; then
-      echoerr "Invalid option for -lgms"
+      echoerror "Invalid option for -lgms"
       break
     fi
     shift 2
@@ -302,7 +307,7 @@ while [[ $# -gt 0 ]]; do
   --log-docker-gen-max_size=*)
     ARG_DOCKER_GEN_LOG_MAX_SIZE="${1#*=}"
     if [[ $ARG_DOCKER_GEN_LOG_MAX_SIZE == "" ]]; then
-      echoerr "Invalid option for --log-docker-gen-max_size"
+      echoerror "Invalid option for --log-docker-gen-max_size"
       break
     fi
     shift 1
@@ -310,7 +315,7 @@ while [[ $# -gt 0 ]]; do
   -lgmf)
     ARG_DOCKER_GEN_LOG_MAX_FILE="${2}"
     if [[ $ARG_DOCKER_GEN_LOG_MAX_FILE == "" ]]; then
-      echoerr "Invalid option for -lgmf"
+      echoerror "Invalid option for -lgmf"
       break
     fi
     shift 2
@@ -318,7 +323,7 @@ while [[ $# -gt 0 ]]; do
   --log-docker-gen-max_file=*)
     ARG_DOCKER_GEN_LOG_MAX_FILE="${1#*=}"
     if [[ $ARG_DOCKER_GEN_LOG_MAX_FILE == "" ]]; then
-      echoerr "Invalid option for --log-docker-gen-max_file"
+      echoerror "Invalid option for --log-docker-gen-max_file"
       break
     fi
     shift 1
@@ -326,7 +331,7 @@ while [[ $# -gt 0 ]]; do
   -lld)
     ARG_LETSENCRYPT_LOG_DRIVER="${2}"
     if [[ $ARG_LETSENCRYPT_LOG_DRIVER == "" ]]; then
-      echoerr "Invalid option for -lld"
+      echoerror "Invalid option for -lld"
       break
     fi
     shift 2
@@ -334,7 +339,7 @@ while [[ $# -gt 0 ]]; do
   --log-letsencrypt-driver=*)
     ARG_LETSENCRYPT_LOG_DRIVER="${1#*=}"
     if [[ $ARG_LETSENCRYPT_LOG_DRIVER == "" ]]; then
-      echoerr "Invalid option for --log-letsencrypt-driver"
+      echoerror "Invalid option for --log-letsencrypt-driver"
       break
     fi
     shift 1
@@ -342,7 +347,7 @@ while [[ $# -gt 0 ]]; do
   -llms)
     ARG_LETSENCRYPT_LOG_MAX_SIZE="${2}"
     if [[ $ARG_LETSENCRYPT_LOG_MAX_SIZE == "" ]]; then
-      echoerr "Invalid option for -llms"
+      echoerror "Invalid option for -llms"
       break
     fi
     shift 2
@@ -350,7 +355,7 @@ while [[ $# -gt 0 ]]; do
   --log-letsencrypt-max_size=*)
     ARG_LETSENCRYPT_LOG_MAX_SIZE="${1#*=}"
     if [[ $ARG_LETSENCRYPT_LOG_MAX_SIZE == "" ]]; then
-      echoerr "Invalid option for --log-letsencrypt-max_size"
+      echoerror "Invalid option for --log-letsencrypt-max_size"
       break
     fi
     shift 1
@@ -358,7 +363,7 @@ while [[ $# -gt 0 ]]; do
   -llmf)
     ARG_LETSENCRYPT_LOG_MAX_FILE="${2}"
     if [[ $ARG_LETSENCRYPT_LOG_MAX_FILE == "" ]]; then
-      echoerr "Invalid option for -llmf"
+      echoerror "Invalid option for -llmf"
       break
     fi
     shift 2
@@ -366,7 +371,7 @@ while [[ $# -gt 0 ]]; do
   --log-letsencrypt-max_file=*)
     ARG_LETSENCRYPT_LOG_MAX_FILE="${1#*=}"
     if [[ $ARG_LETSENCRYPT_LOG_MAX_FILE == "" ]]; then
-      echoerr "Invalid option for --log-letsencrypt-max_file"
+      echoerror "Invalid option for --log-letsencrypt-max_file"
       break
     fi
     shift 1
@@ -376,7 +381,7 @@ while [[ $# -gt 0 ]]; do
   -phttp)
     ARG_DOCKER_HTTP="${2}"
     if [[ $ARG_DOCKER_HTTP == "" ]]; then
-      echoerr "Invalid option for -phttp"
+      echoerror "Invalid option for -phttp"
       break
     fi
     shift 2
@@ -384,7 +389,7 @@ while [[ $# -gt 0 ]]; do
   --port-http=*)
     ARG_DOCKER_HTTP="${1#*=}"
     if [[ $ARG_DOCKER_HTTP == "" ]]; then
-      echoerr "Invalid option for --port-http"
+      echoerror "Invalid option for --port-http"
       break
     fi
     shift 1
@@ -392,7 +397,7 @@ while [[ $# -gt 0 ]]; do
   -phttps)
     ARG_DOCKER_HTTPS="${2}"
     if [[ $ARG_DOCKER_HTTPS == "" ]]; then
-      echoerr "Invalid option for -phttps"
+      echoerror "Invalid option for -phttps"
       break
     fi
     shift 2
@@ -400,7 +405,7 @@ while [[ $# -gt 0 ]]; do
   --port-https=*)
     ARG_DOCKER_HTTPS="${1#*=}"
     if [[ $ARG_DOCKER_HTTPS == "" ]]; then
-      echoerr "Invalid option for --port-https"
+      echoerror "Invalid option for --port-https"
       break
     fi
     shift 1
@@ -410,7 +415,7 @@ while [[ $# -gt 0 ]]; do
   -sp)
     ARG_SSL_POLICY="${2}"
     if [[ $ARG_SSL_POLICY == "" ]]; then
-      echoerr "Invalid option for -sp"
+      echoerror "Invalid option for -sp"
       break
     fi
     shift 2
@@ -418,17 +423,36 @@ while [[ $# -gt 0 ]]; do
   --ssl-policy=*)
     ARG_SSL_POLICY="${1#*=}"
     if [[ $ARG_SSL_POLICY == "" ]]; then
-      echoerr "Invalid option for --ssl-policy"
+      echoerror "Invalid option for --ssl-policy"
       break
     fi
     shift 1
     ;;
 
+  # Docker rootless support
+  -dr)
+    USE_DOCKER_ROOTLESS=true
+    shift 1
+    ;;
+  --docker-rootless)
+    USE_DOCKER_ROOTLESS=true
+    shift 1
+    ;;
+
+  # IPv4 options
+  --ipv4-subnet=*)
+    ARG_IPv4_SUBNET="${1#*=}"
+    if [[ $ARG_IPv4_SUBNET == "" ]]; then
+      echoerror "Invalid option for --ipv4-subnet"
+      break
+    fi
+    shift 1
+    ;;
   # IPv6 options
   --ipv6-subnet=*)
     ARG_IPv6_SUBNET="${1#*=}"
     if [[ $ARG_IPv6_SUBNET == "" ]]; then
-      echoerr "Invalid option for --ipv6-subnet"
+      echoerror "Invalid option for --ipv6-subnet"
       break
     fi
     shift 1
@@ -438,6 +462,25 @@ while [[ $# -gt 0 ]]; do
     shift 1
     ;;
 
+  # Default host
+  -dh)
+    ARG_DEFAULT_HOST="${2}"
+    if [[ $ARG_DEFAULT_HOST == "" ]]; then
+      echoerror "Invalid option for -dh"
+      break
+    fi
+    shift 2
+    ;;
+  --default-host=*)
+    ARG_DEFAULT_HOST="${1#*=}"
+    if [[ $ARG_DEFAULT_HOST == "" ]]; then
+      echoerror "Invalid option for --default-host"
+      break
+    fi
+    shift 1
+    ;;
+
+  # Other options
   --update-nginx-template)
     UPDATE_NGINX_TEMPLATE=true
     shift 1
@@ -467,7 +510,7 @@ while [[ $# -gt 0 ]]; do
     exit 0
     ;;
   *)
-    echoerr "Unknown argument: $1" false
+    echoerror "Unknown argument: $1" false
     usage
     exit 0
     ;;
@@ -482,10 +525,10 @@ done
 run_function check_local_env_file
 
 # Specific PID File if needs to run multiple scripts
-NEW_PID_FILE=${PID_FILE_FRESH_INSTALL:-".fresh_start"}
+NEW_PID_FILE=${PID_FILE_FRESH_INSTALL:-".fresh_start.pid"}
 
 # Run initial check function
-run_function starts_initial_check $NEW_PID_FILE true
+run_function starts_initial_check $NEW_PID_FILE
 
 # Save PID
 system_save_pid $NEW_PID_FILE
@@ -500,10 +543,10 @@ local_undo_restore() {
 
   LOCAL_KEEP_RESTORE_FILES=${1:-$KEEP_RESTORE_FILES}
 
-  echoerr \
-    "It seems something went wrong running '${FUNCNAME[0]}' \
-        \nwe will try to UNDO all actions done by this script. \
-        \nPlease make sure everything was put it back in place." false
+  echoerror \
+    "It seems something went wrong! \
+    \nRunning '${FUNCNAME[0]} to try to UNDO all actions done by this script. \
+    \nPlease make sure everything was put it back in place." false
 
   # If docker network was created
   if [[ "$ACTION_DOCKER_NETWORK_CREATED" == true ]]; then
@@ -556,7 +599,7 @@ local_check_docker_hub_image_version() {
   run_function dockerhub_check_image_exists $LOCAL_DOCKER_IMAGE_NAME
 
   if [[ "$DOCKERHUB_IMAGE_EXISTS" != true ]]; then
-    echoerr "It seems the image '$LOCAL_DOCKER_IMAGE_NAME' does not exist in docker hub (https://hub.docker.com) or the site is down. Wait a few minutes and try again." false
+    echoerror "It seems the image '$LOCAL_DOCKER_IMAGE_NAME' does not exist in docker hub (https://hub.docker.com) or the site is down. Wait a few minutes and try again." false
     local_undo_restore
   fi
 
@@ -564,7 +607,7 @@ local_check_docker_hub_image_version() {
   run_function dockerhub_check_image_exists $LOCAL_DOCKER_IMAGE_NAME $LOCAL_DOCKER_IMAGE_VERSION
 
   if [[ "$DOCKERHUB_IMAGE_EXISTS" != true ]]; then
-    echoerr "It seems the image '$LOCAL_DOCKER_IMAGE_NAME:$LOCAL_DOCKER_IMAGE_VERSION' does not exist in docker hub (https://hub.docker.com) or the site is down. Wait a few minutes and try again." false
+    echoerror "It seems the image '$LOCAL_DOCKER_IMAGE_NAME:$LOCAL_DOCKER_IMAGE_VERSION' does not exist in docker hub (https://hub.docker.com) or the site is down. Wait a few minutes and try again." false
     local_undo_restore
   fi
 }
@@ -642,9 +685,9 @@ else
 fi
 
 # Validate the name
-run_function string_remove_all_special_char_string $LOCAL_NGINX_PROXY_SERVICE_NAME
+run_function string_remove_all_special_char_string $LOCAL_NGINX_PROXY_SERVICE_NAME "-_"
 NGINX_PROXY_SERVICE_NAME=${STRING_REMOVE_ALL_SPECIAL_CHAR_STRING_RESPONSE:-null}
-[[ $NGINX_PROXY_SERVICE_NAME == null ]] && echoerr "The service name can not contain special chars, neither be empty"
+[[ $NGINX_PROXY_SERVICE_NAME == null ]] && echoerror "The service name can not contain special chars, neither be empty"
 
 # Check exists a container with this name
 run_function docker_check_container_exists $NGINX_PROXY_SERVICE_NAME
@@ -712,9 +755,9 @@ else
 fi
 
 # Validate the name
-run_function string_remove_all_special_char_string $LOCAL_LETSENCRYPT_SERVICE_NAME
+run_function string_remove_all_special_char_string $LOCAL_LETSENCRYPT_SERVICE_NAME "-_"
 LETSENCRYPT_SERVICE_NAME=${STRING_REMOVE_ALL_SPECIAL_CHAR_STRING_RESPONSE:-null}
-[[ $LETSENCRYPT_SERVICE_NAME == null ]] && echoerr "The service name can not contain special chars, neither be empty"
+[[ $LETSENCRYPT_SERVICE_NAME == null ]] && echoerror "The service name can not contain special chars, neither be empty"
 
 # Check exists a container with this name
 run_function docker_check_container_exists $LETSENCRYPT_SERVICE_NAME
@@ -782,9 +825,9 @@ else
 fi
 
 # Validate the name
-run_function string_remove_all_special_char_string $LOCAL_DOCKER_GEN_SERVICE_NAME
+run_function string_remove_all_special_char_string $LOCAL_DOCKER_GEN_SERVICE_NAME "-_"
 DOCKER_GEN_SERVICE_NAME=${STRING_REMOVE_ALL_SPECIAL_CHAR_STRING_RESPONSE:-null}
-[[ $DOCKER_GEN_SERVICE_NAME == null ]] && echoerr "The service name can not contain special chars, neither be empty"
+[[ $DOCKER_GEN_SERVICE_NAME == null ]] && echoerror "The service name can not contain special chars, neither be empty"
 
 # Check exists a container with this name
 run_function docker_check_container_exists $DOCKER_GEN_SERVICE_NAME
@@ -852,7 +895,7 @@ NGINX_PROXY_IMAGE_VERSION=${ARG_NGINX_PROXY_IMAGE_VERSION:-$LOCAL_DEFAULT_NGINX_
 #fi
 #
 #if [[ "$NGINX_PROXY_IMAGE_VERSION" == null ]] || [[ "$LOCAL_DEFAULT_NGINX_PROXY_IMAGE_NAME" == null ]]; then
-#    echoerr "It seems there is no default image or version, please check the .env file at '$SCRIPT_PATH'"
+#    echoerror "It seems there is no default image or version, please check the .env file at '$SCRIPT_PATH'"
 #fi
 
 # Final check image a version with dockerhub
@@ -880,7 +923,7 @@ else
 fi
 
 if [[ "$LETSENCRYPT_IMAGE_VERSION" == null ]] || [[ "$LOCAL_DEFAULT_LETSENCRYPT_IMAGE_VERSION" == null ]]; then
-  echoerr "It seems there is no default image or version, please check the .env file at '$SCRIPT_PATH'"
+  echoerror "It seems there is no default image or version, please check the .env file at '$SCRIPT_PATH'"
 fi
 
 # Final check image a version with dockerhub
@@ -908,7 +951,7 @@ else
 fi
 
 if [[ "$DOCKER_GEN_IMAGE_VERSION" == null ]] || [[ "$LOCAL_DEFAULT_DOCKER_GEN_IMAGE_VERSION" == null ]]; then
-  echoerr "It seems there is no default image or version, please check the .env file at '$SCRIPT_PATH'"
+  echoerror "It seems there is no default image or version, please check the .env file at '$SCRIPT_PATH'"
 fi
 
 # Final check image a version with dockerhub
@@ -940,7 +983,7 @@ fi
 run_function ip_check_ipv4 $LOCAL_IP_ADDRESS
 
 if [[ ! "$IP_IPV4" == true ]]; then
-  echoerr "The IP address '$LOCAL_IP_ADDRESS' seems to be in wrong format. Please try again or keep the default value."
+  echoerror "The IP address '$LOCAL_IP_ADDRESS' seems to be in wrong format. Please try again or keep the default value."
   local_undo_restore
 else
   IP_ADDRESS=${LOCAL_IP_ADDRESS:-"0.0.0.0"}
@@ -975,7 +1018,7 @@ if [[ "$ACTIVATE_IPV6" == true ]]; then
   run_function ip_check_ipv6 $LOCAL_IPv6_ADDRESS
 
   if [[ ! "$IP_IPV6" == true ]]; then
-    echoerr "The IP address '$LOCAL_IPv6_ADDRESS' seems to be in wrong format. Please try again or keep the default value."
+    echoerror "The IP address '$LOCAL_IPv6_ADDRESS' seems to be in wrong format. Please try again or keep the default value."
     local_undo_restore
   else
     IPv6_ADDRESS=${LOCAL_IPv6_ADDRESS:-"::0"}
@@ -1002,9 +1045,9 @@ else
 fi
 
 # Validate the name
-run_function string_remove_all_special_char_string $LOCAL_DOCKER_NETWORK_NAME
+run_function string_remove_all_special_char_string $LOCAL_DOCKER_NETWORK_NAME "-_"
 DOCKER_NETWORK_NAME=${STRING_REMOVE_ALL_SPECIAL_CHAR_STRING_RESPONSE:-null}
-[[ $DOCKER_NETWORK_NAME == null ]] && echoerr "The network name can not contain special chars, neither be empty"
+[[ $DOCKER_NETWORK_NAME == null ]] && echoerror "The network name can not contain special chars, neither be empty"
 
 #-----------------------------------------------------------------------
 # Data location for nginx-proxy files
@@ -1049,7 +1092,7 @@ fi
 # Check if email is valid
 run_function email_check_is_valid $DEFAULT_EMAIL
 
-[[ ! "$EMAIL_IS_VALID" == true ]] && echoerr "You must inform a valid email address in order to continue. Please try again."
+[[ ! "$EMAIL_IS_VALID" == true ]] && echoerror "You must inform a valid email address in order to continue. Please try again."
 
 #-----------------------------------------------------------------------
 # Log settings for nginx-proxy
@@ -1087,6 +1130,16 @@ DOCKER_HTTPS=${ARG_DOCKER_HTTPS:-"443"}
 # https://github.com/nginx-proxy/nginx-proxy#how-ssl-support-works
 #-----------------------------------------------------------------------
 SSL_POLICY=${ARG_SSL_POLICY:-"Mozilla-Intermediate"}
+
+#-----------------------------------------------------------------------
+# Docker rootless support. Add the current user's docker.sock path (default: blank)
+# Please read the official documentation of installing Docker Rootless:
+# https://docs.docker.com/engine/security/rootless/
+#-----------------------------------------------------------------------
+if [[ "$USE_DOCKER_ROOTLESS" == true ]]; then
+  # Get the current user's $XDG_RUNTIME_DIR and concat with the '/docker.sock'
+  DOCKER_HOST_ROOTLESS_PATH=`echo ${XDG_RUNTIME_DIR}/docker.sock`
+fi
 
 #-----------------------------------------------------------------------
 # Start actions!
@@ -1146,7 +1199,7 @@ if [[ "$USE_NGINX_CONF_FILES" == true ]]; then
 
   # If there was any errors inform the user
   if [ $? -ne 0 ]; then
-    echoerr "There was an error trying to copy the nginx conf files. \
+    echoerror "There was an error trying to copy the nginx conf files. \
       \nThe proxy will still work with default options, but \
       \nthe custom settings might not be loaded."
   fi
@@ -1194,10 +1247,14 @@ run_function docker_check_network_exists $DOCKER_NETWORK_NAME
 
 if [[ ! "$DOCKER_NETWORK_EXISTS" == true ]]; then
 
-  run_function docker_network_create $DOCKER_NETWORK_NAME $ACTIVATE_IPV6 $ARG_IPv6_SUBNET
+  run_function docker_network_create $DOCKER_NETWORK_NAME ${ARG_IPv4_SUBNET:-null} $ACTIVATE_IPV6 $ARG_IPv6_SUBNET
 
   if [[ "$ERROR_DOCKER_NETWORK_CREATE" == true ]]; then
-    echoerr "There was error when creating the docker network $DOCKER_NETWORK_NAME [IPv6 enabled: ${ACTIVATE_IPV6:-'false'} ]" false
+    echoerror \
+      "There was an error when creating the docker network $DOCKER_NETWORK_NAME [IPv6 enabled: ${ACTIVATE_IPV6:-'false'} ] \
+      \nPlease try to create the network by yourself using the appropriate options described below and try again: \
+      \nhttps://docs.docker.com/engine/reference/commandline/network_create/" \
+      false
     local_undo_restore
   else
     ACTION_DOCKER_NETWORK_CREATED=true
@@ -1215,7 +1272,7 @@ run_function local_update_docker_compose_file "$SCRIPT_PATH/../"
 run_function docker_compose_start "$SCRIPT_PATH/../"
 
 if [[ "$ERROR_DOCKER_COMPOSE_START" == true ]]; then
-  echoerr "There was an error starting the service at '$SCRIPT_PATH/../'"
+  echoerror "There was an error starting the service at '$SCRIPT_PATH/../'"
   local_undo_restore
 fi
 
